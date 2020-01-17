@@ -12,7 +12,7 @@ const styles = makeStyles({
         backgroundColor: 'rgba(0, 0, 0, 0.08)',
         minWidth: '34vh'
     },
-    cardDiv: {
+    requestCardDiv: {
         alignItems: 'center',
         justifyContent: 'flex-start',
         flexDirection: 'column',
@@ -25,6 +25,13 @@ const styles = makeStyles({
         right: 0,
         marginBottom: '2vh',
         marginRight: '2vh'
+    },
+    cardDiv: {
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        flexDirection: 'column-reverse',
+        display: 'flex',
     }
 });
 
@@ -34,9 +41,11 @@ const index = () => {
     return (
         <div className={classes.app}>
             <Header/>
-            <div className={classes.cardDiv}>
+            <div className={classes.requestCardDiv}>
                 <MentoringCardRequest/>
-                <MentoringCards/>
+                <div className={classes.cardDiv}>
+                    <MentoringCards/>
+                </div>  
                 <Fab className={classes.addFab} color="primary" aria-label="add">
                     <AddIcon />
                 </Fab>

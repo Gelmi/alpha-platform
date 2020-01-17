@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, TextField, Card, CardContent, Typography, Select, MenuItem, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSelector, useDispatch } from "react-redux";
 
 const styles = makeStyles({
     card: {
@@ -102,27 +103,11 @@ const styles = makeStyles({
 export default function MentoringCards() {
     const classes = styles();
 
-    const mentories = 
-        [
-            {
-                id: 1,
-                name: 'Guilherme Gelmi',
-                sub: 'matematica',
-                datetime: '24/01/2020 00:00'
-            },
-            {
-                id: 2,
-                name: 'Guilherme Gelmi',
-                sub: 'portugues',
-                datetime: '12/01/2008 00:00'
-            }
-        ]
-    ;
+    const mentories = useSelector(state => state.mentories);
 
     const MentoryCard = mentories.map((cardm) => 
             <Card key={cardm.id} className={classes.card}>
                 <CardContent>
-                    <form className="loginForm" noValidate autoComplete="off">
                         <Grid 
                             container 
                             spacing={3}
@@ -136,7 +121,7 @@ export default function MentoringCards() {
                                     Marque sua Mentoria:
                                 </Typography>      
                                 <Typography variant="subtitle2" className={classes.useridTitle}>
-                                    Seu nome:
+                                    Nome:
                                 </Typography>
                                 <Grid
                                     container 
@@ -144,7 +129,7 @@ export default function MentoringCards() {
                                     alignItems="center"
                                 >
                                     <Grid className={classes.gridUseridInput} item>                     
-                                        <Typography className={classes.cardInfoText} variant="h6">Guilherme Gelmi</Typography>
+                                        <Typography className={classes.cardInfoText} variant="h6">{cardm.name}</Typography>
                                     </Grid>
                                 </Grid>   
                                 <Typography variant="subtitle2" className={classes.passwordTitle}>
@@ -156,7 +141,7 @@ export default function MentoringCards() {
                                     alignItems="center"
                                 >
                                     <Grid className={classes.gridUseridInput} item>                     
-                                        <Typography className={classes.cardInfoText} variant="h6">Matemática</Typography>
+                                        <Typography className={classes.cardInfoText} variant="h6">{cardm.sub}</Typography>
                                     </Grid>
                                 </Grid>   
                                 <Typography variant="subtitle2" className={classes.passwordTitle}>
@@ -168,12 +153,11 @@ export default function MentoringCards() {
                                     alignItems="center"
                                 >
                                     <Grid className={classes.gridUseridInput} item>                     
-                                        <Typography className={classes.cardInfoText} variant="h6">24/01/2020 00:00</Typography>
+                                        <Typography className={classes.cardInfoText} variant="h6"> {cardm.datetime} </Typography>
                                     </Grid>
                                 </Grid>                
                             </Grid>
                         </Grid>
-                    </form>
                     <Grid
                         container
                         direction="row"

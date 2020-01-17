@@ -1,6 +1,12 @@
-import React from 'react';
-import { Grid, TextField, Card, CardContent, Typography, Select, MenuItem, Button } from '@material-ui/core';
+import React, {Fragment} from 'react';
+import { Grid, TextField, Card, CardContent, Typography, Select, MenuItem, Button, Snackbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSelector, useDispatch } from "react-redux";
+import MuiAlert from '@material-ui/lab/Alert';
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const styles = makeStyles({
     card: {
@@ -83,15 +89,50 @@ const styles = makeStyles({
 
 export default function MentoringCards() {
     const classes = styles();
+    const dispatch = useDispatch();
 
-    const [subject, setSubject] = React.useState('');
-
-
-    const handleChange = event => {
-        setSubject(event.target.value);
+    const [name, setName] = React.useState('');
+    const [sub, setSub] = React.useState('');
+    const [datetime, setDatetime] = React.useState('');
+    const [open, setOpen] = React.useState(false);
+    
+    const handleRequestError = () => {
+        setOpen(true);
     };
 
+    const handleErrorClose = (event, reason) => {
+        if (reason === 'clickaway') {
+        return;
+        }
+
+        setOpen(false);
+    };
+
+    const handleChangeSub = event => {
+        setSub(event.target.value);
+    };
+
+    const handleChangeName = event => {
+        setName(event.target.value);
+    };
+
+    const handleChangeDatetime = event => {
+        setDatetime(event.target.value);
+    };
+
+    function addMentories(name, sub, datetime) {
+        if(name != '' && sub != '' && datetime != '') {    
+            dispatch({ type: "ADD_MENTORIES", name: name, sub: sub, datetime: datetime });
+            setName('');
+            setSub('');
+            setDatetime('');
+        } else {
+            setOpen(true);
+        }
+    }
+
     return(
+        <Fragment>
             <Card className={classes.card}>
                 <CardContent>
                     <form className="loginForm" noValidate autoComplete="off">
@@ -116,7 +157,7 @@ export default function MentoringCards() {
                                     alignItems="center"
                                 >
                                     <Grid className={classes.gridUseridInput} item>                     
-                                        <TextField className={classes.useridInput} id="outlined-basic" />
+                                        <TextField onChange={handleChangeName} value={name} className={classes.useridInput} id="outlined-basic" />
                                     </Grid>
                                 </Grid>   
                                 <Typography variant="subtitle2" className={classes.passwordTitle}>
@@ -129,8 +170,8 @@ export default function MentoringCards() {
                                 >
                                     <Grid className={classes.gridUseridInput} item>                     
                                         <Select
-                                            value={subject}
-                                            onChange={handleChange}
+                                            value={sub}
+                                            onChange={handleChangeSub}
                                             className={classes.subjectSelect}
                                         >
                                             <MenuItem value={'matematica'}>Matemática</MenuItem>
@@ -162,6 +203,8 @@ export default function MentoringCards() {
                                             InputLabelProps={{
                                             shrink: true,
                                             }}
+                                            onChange={handleChangeDatetime}
+                                            value={datetime}
                                         />
                                     </Grid>
                                 </Grid>                
@@ -176,11 +219,17 @@ export default function MentoringCards() {
                         <Button classes={{root: classes.cancelButtom, label: classes.cancelButtomText }} variant="outlined">
                             Cancelar
                         </Button>
-                        <Button classes={{root: classes.confirmButtom, label: classes.confirmButtomText }} variant="contained">
+                        <Button onClick={()=> {addMentories(name, sub, datetime)}} classes={{root: classes.confirmButtom, label: classes.confirmButtomText }} variant="contained">
                             Confirmar
                         </Button>
                     </Grid>
                 </CardContent>
             </Card>
+            <Snackbar open={open} autoHideDuration={3000} onClose={handleErrorClose}>
+                <Alert onClose={handleErrorClose} severity="error">
+                    Informações incompletas
+                </Alert>
+            </Snackbar>
+        </Fragment>
     )
 }
