@@ -4,17 +4,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 
 const styles = makeStyles({
-    card: {
-      width: '40%',
-      height: 'min-content',
-      minWidth: '30vh'
-    },
     app: {
         justifyContent: 'center',
         alignItems: 'center',
         display: 'flex',
         height: '100vh',
         backgroundColor: 'rgba(0, 0, 0, 0.08)',
+    },
+    card: {
+      width: '40%',
+      height: 'min-content',
+      minWidth: '30vh'
     },
     loginTitle: {
         marginBottom: '2vh',
